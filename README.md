@@ -37,12 +37,9 @@ from rest_framework import serializers
 from eventos,models import Atividade, Participante
 from .participante_serializer import ParticipanteSerializer
 
-class 
-AtividadeSerializer(serializers.ModelSerializer):
-  responsavel = 
-    ParticipanteSerializer(read_only=True)
-      responsavel_id=
-    serializers.PrimaryKeyRelatedFild(
+class AtividadeSerializer(serializers.ModelSerializer):
+  responsavel = ParticipanteSerializer(read_only=True) #ou (many=True)
+  responsavel_id = serializers.PrimaryKeyRelatedFild(
 
    quwryset=Participante.objects.all(),
             source='responsavel'
@@ -95,10 +92,15 @@ from .participanteSerializer import ParticipanteSerializer
 from .ativiidadeSerializer import AtiviidadeSerializer
 
 # na views.py em EventoViewSet substitua o serializers por 
-
 def get_serializer_class(self):
   if self,action in ("retrieve","dashboardd"]:
     return EventoDetailSerializer
-  return EventoSerializer
-  
+     return EventoSerializer
+     
+#O MANO NO VIDEO FAZ ASSIM 
+def perform_create(self,serializer):
+    user = self.request.user
+    serializer.save(author=user)
+    return super().perform_createe(serializer)
+
       
